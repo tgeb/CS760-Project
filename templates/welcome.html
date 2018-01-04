@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to Spartan warzone </title>
+</head>
+<body >
+
+<link rel="stylesheet" href="/static/css/CTF.css" type="text/css" />
+
+<h1><b>Welcome to the Spartan War Zone</b></h1>
+<!--<div class="imgcontainer">-->
+<div class="wrapper">
+    <div class="image">
+        <img src="/static/images/spartan1.png" alt="Avatar" class="avatar">
+    </div>
+
+    <hr style="height:8pt; visibility:hidden;" />
+    <div class="control-group">
+        {% for message in get_flashed_messages() %}
+          <center><h5><font color="red">{{ message }}</font></h5></center>
+        {% endfor %}
+    </div>
+
+   <div class="control-group">
+        {% if messageLogout %}
+          <center><h5><font color="red">{{ messageLogout }}</font></h5></center>
+        {% endif %}
+
+    <div class="welcome">
+        <form action="http://159.203.161.23/login_player" method="post">
+
+            <div class="login-player">
+                <center>
+                <br>
+                <br>
+                <label for="playerLogin"><b>Player Login</b></label>
+
+                {% if error %}
+                    <h5><font color="red">Error: {{ error }}</font></h5>
+                {% endif %}
+                <!--<label><b>Username</b></label>-->
+                <div class="login-form">
+                    <div class="control-group">
+                        <input type="text" class="testboxclass" placeholder="Enter Username" name="uname" required>
+                    </div>
+                    <!--<label><b>Password</b></label>-->
+                    <div class="control-group">
+                        <input type="password" class="testboxclass" placeholder="Enter Password" name="pwrd" required>
+                    </div>
+
+                    <button type="submit">Login</button>
+
+
+                        </form>
+                    <!--<input type="checkbox" checked="checked"> Remember me-->
+                       <h6><span>or</span></h6>
+                        <form action="/register">
+                            <button type="submit">Register</button>
+                </div>
+                </center>
+
+            </div>
+
+        </form>
+        <form action="http://159.203.161.23/login_admin" method="post">
+
+            <div class="login-admin">
+		<br>
+		<br>
+        <center>
+                <label for="adminLogin"><b>Admin Login</b></label>
+                <!--<label><b>Username</b></label>-->
+                {% if error_admin %}
+                    <h5><font color="red">Error: {{ error_admin }}</font></h5>
+                {% endif %}
+                <div class="login-form">
+                    <div class="control-group">
+                        <input type="text" class="testboxclass" placeholder="Enter Username" name="uname" required>
+                    </div>
+                    <!--<label><b>Password</b></label>-->
+                    <div class="control-group">
+                        <input type="password" class="testboxclass" placeholder="Enter Password" name="pwrd" required>
+                    </div>
+
+                    <button type="submit">Login</button>
+                   <!-- <input type="checkbox" checked="checked"> Remember me-->
+                </div>
+                </center>
+
+            </div>
+        </form>
+
+    </div>
+</div>
+    <!--span class="psw"> <a href="#">Forgot password?</a></span-->
+</div>
+
+</body>
+
+
+</html>

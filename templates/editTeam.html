@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="import" href="puzzles.html" id="puzz">
+    <link rel="stylesheet" href="/static/css/CTF.css" type="text/css">
+
+
+</head>
+
+<style>
+
+</style>
+<body>
+
+<!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<!-- Navigation style changes!!!!!!!! -->
+<ul>
+  <li><a href="/puzzleB_adminView">PuzzleBoard</a></li>
+  <li style="float:right"><a class="active" href="/log_out_admin">Log Out</a></li>
+</ul>
+
+
+<!--<h4><a href="/leaderBoard">LeaderBoard</a></h4>-->
+
+
+<div data-role="header">
+    <center><h1>Manage Game Content</h1></center>
+</div>
+
+
+  <center><h2 class="tQ">Manage Teams</h2><center>
+
+
+
+
+<div class="tWrap">
+
+
+    <!--Add team-->
+
+    <div class=tAdd>
+
+        <center><h4>Add Team</h4>
+            <div class="forms">
+               <form  action="http://159.203.161.23/add_team" method="post">
+                    <dl>
+                        <div class="control-group">
+                            {% if error %}
+                                <h5><font color="red"><strong>Error:</strong>{{ error }}</font></h5>
+                            {% endif %}
+                            <input type="text" class="testboxclass" placeholder="Enter Team Name" name="team_select"required>
+                        </div>
+                    </dl>
+                    <button type="submit">Submit</button>
+                </form></center>
+            </div>
+
+    <!--Edit team-->
+
+    <div class=tEdit>
+        <center><h4>Delete Teams</h4>
+
+            <div class="forms">
+                <form action="http://159.203.161.23/delete_team" method="post">
+                    <dl> <select name="team_select">
+                        {% for team in teams %}
+                            <option value="{{ team }}">{{ team }}</option>
+                        {% endfor %}
+                    </select>
+                    </dl>
+
+                    <br>
+		    <br>
+
+                    <button type="submit">Delete</button>
+                </form>
+            </div>
+        </center>
+    </div>
+
+</div>
+
+
+<br>
+<center><h2 class="mC"> Manage Categories </h2><center>
+<!--Add and Edit Categories-->
+<div class="cWrap">
+
+    <!--Add Category-->
+    <div class="cAdd">
+        <center><h4>Add New Category</h4>
+
+            {#  {% from "_formhelpers.html" import render_field with context %}#}
+            <div class="forms">
+                <form action="http://159.203.161.23/add_category" method="post">
+                    <dl>
+                        <div class="control-group">
+                            {% if error %}
+                                <h5><font color="red"><strong>Error:</strong>{{ error }}</font></h5>
+                            {% endif %}
+                            <input type="text" class="testboxclass" placeholder="Enter Category Name" name="category_select" required>
+                        </div>
+                    </dl>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        </center>
+    </div>
+
+    <!--Delete Category-->
+    <div class="cEdit">
+        <center><h4>Delete Categories</h4>
+
+            {#  {% from "_formhelpers.html" import render_field with context %}#}
+            <div class="forms">
+                <form action="http://159.203.161.23/delete_category" method="post">
+                    <dl> Category:<select name="category_select">
+                        {% for category in categories %}
+                            <option value="{{ category }}">{{ category }}</option>
+                        {% endfor %}
+                                  </select>
+                    </dl>
+                    <br>
+		    <br>
+                    <button type="submit">Delete</button>
+                </form>
+            </div>
+        </center>
+    </div>
+</div>
+
+</div>
+
+
+<center><h2 class="mQ"> Manage Questions</h2><center>
+
+
+<!--Add and delete Question-->
+<div class="qWrap">
+    <div class="qAdd">
+        <center><h4>Add New Question</h4>
+            <div class="forms-inline">
+
+                <form action="http://159.203.161.23/add_question" method="post">
+                        <!--add category to question box-->
+                        Category: <select name="category_select">
+                        {% for category in categories %}
+                            <option value="{{ category }}">{{ category }}</option>
+                        {% endfor %}
+                    </select>
+                        {% if error %}
+                            <h5><font color="red"><strong>Error:</strong>{{ error }}</font></h5>
+                        {% endif %}
+                        <dl>
+			            <input type="text" class="testboxclass" placeholder="Title of Puzzle" name="puzzleName" required>
+
+                        <dl><input type="text" class="testboxclass" placeholder="Enter Point Value" name="point" required></dl>
+
+                        <input type="text" class="testboxclass" name="question" placeholder="Enter Question" name="answer" required>
+                        <!--<dl><textarea rows="4" cols="50" name="question"> Enter Question Here</textarea></dl>
+
+                        <dl><textarea rows="4" cols="50" name="answer"> Enter Answer Here</textarea></dl>-->
+
+                        <input type="text" class="testboxclass" name="answer" placeholder="Enter Answer" name="question"required>
+                       <!-- <dl><input type="file" class="testboxclass" placeholder="File Upload" name="file" ></dl>-->
+
+                        <dl><button type="submit">Submit</button></dl>
+
+                </form>
+
+        </center>
+    </div>
+
+    <!--get questions from database based on category name-->
+
+    <div class="qEdit">
+        <center><h4>Delete Question</h4>
+
+            <div class="forms-inline">
+                <form action="http://159.203.161.23/get_question" method="post">
+                    <dl>Select a Category:<select id="category" name="category_select" onchange="this.form.submit()">
+                        <option value="">--</option>
+                        {% for category in categories %}
+                            <option value="{{ category }}">{{ category }}</option>
+                        {% endfor %}
+                    </select>
+                    </dl>
+                    <!--<button onClick="bringUpQuestions()" type="submit">Submit</button>-->
+                </form>
+
+
+    		<br>
+		<br>
+
+                <form action="http://159.203.161.23/delete_question" method="post">
+                     <h4>Questions in Category:{{selected_catName}}</h4>
+                    {% for question in questions %}
+                        <input type="checkbox" name="question_select" value="{{ question }}"> {{ question }}<br>
+                    {% endfor %}
+
+                    <button type="submit">Delete</button>
+
+                </form>
+            </div>
+        </center>
+    </div>
+</div>
+
+
+
+
+<!--<form action="http:/localhost:500/pop_questions" method="post">
+
+            <p name ="demo" id="demo"></p>
+             <dl> Question: <select name="team_select">
+                        {% for question in questions %}
+                            <option value="{{ team }}">{{ team }}</option>
+                        {% endfor %}
+                    </select>
+                </dl>
+
+
+
+        </form>-->
+
+
+<!--    <div class="question">
+        <center><h4>Delete Category</h4>
+
+        {#  {% from "_formhelpers.html" import render_field with context %}#}
+        <div class="forms">
+            <form action="http://localhost:5000/delete_category" method="post">
+                <dl>
+
+                    Category: <select name="category_select">
+                        {% for category in categories %}
+                            <option value="{{ category }}">{{ category }}</option>
+                        {% endfor %}
+                    </select>
+-->
+
+
+
+
+</div>
+</div>
+
+<!--<div class="clock">
+    <fieldset>
+        <legend>Game Clock:</legend>
+
+
+        <b><label id="timer">00 : 00 : 00</label></b><br>
+        hr &nbsp;&nbsp;&nbsp; m &nbsp;&nbsp;&nbsp; s <br>
+        <input type="text" id="hour" name="hour" placeholder="Set Hours" required><br>
+        <input type="text" id="minute" name="minute" placeholder="Set Minutes" required><br>
+        <button id="start">Start</button>
+        <button id="pause">Pause</button>
+        <button id="resume">Resume</button>
+    </fieldset>
+</div>
+
+<script>
+    var timer = document.getElementById("timer");
+    var start = document.getElementById("start");
+    var pause = document.getElementById("pause");
+    var resume = document.getElementById("resume");
+    var id;
+    var value = "00:00:00";
+   // var link = document.querySelector('link[rel="import"]');
+
+
+
+    function startTimer(h, m, s) {
+        timer.textContent = h + ":" + m + ":" + s;
+        if (s == 0) {
+            if (m == 0) {
+                if (h == 0) {
+                    document.getElementById("id").innerHTML = "Time is Up";
+                    return;
+                }
+                else if (h != 0) {
+                    h = h - 1;
+                    m = 59;
+                    s = 60;
+                }
+
+            }
+            else if (m != 0) {
+                m = m - 1;
+                s = 60;
+            }
+
+        }
+
+
+        s = s - 1;
+        id = setTimeout(function () {
+            startTimer(h, m, s);
+        }, 1000);
+    }
+
+    function pauseTimer() {
+        value = timer.textContent;
+        clearTimeout(id);
+        //disable buttons
+       // var link = document.querySelector('link[rel="import"]');
+        var link = document.getElementById("puzz");
+        var importedDoc = link.import;
+        alert("checkpoint1");
+        alert("before bu");
+        var bu = importedDoc.getElementById("submitButton").isDisabled;
+        alert("after bu");
+        if(bu===false){
+           importedDoc.getElementById("submitButton").isDisabled=true;
+           alert("checkpoint2");
+        }
+        alert("checkpoint3");
+    }
+
+    function resumeTimer() {
+        var t = value.split(":");
+
+        startTimer(parseInt(t[0], 10), parseInt(t[1], 10), parseInt(t[2], 10));
+    }
+    function clearField() {
+        document.getElementById("hour").value = null;
+        document.getElementById("minute").value = null;
+    }
+    function validateForm() {
+        var hrs = document.getElementsByName("hour")[0].value;
+        var mns = document.getElementsByName("minute")[0].value;
+
+        if (hrs == "" || mns == "") {
+            alert("Hours and Minutes must be filled out.0 is allowed");
+            return;
+        }
+        if (isNaN(hrs) || isNaN(mns)) {
+            alert("Only numbers are allowed");
+            clearField();
+
+            return;
+
+        }
+        hour = parseInt(hrs);
+        minute = parseInt(mns);
+        startTimer(hour, minute, 0);
+    }
+    start.addEventListener("click", validateForm, false);
+
+    pause.addEventListener("click", pauseTimer, false);
+
+    resume.addEventListener("click", resumeTimer, false);
+
+
+</script>-->
+
+
+</body>
+
+
+</html>
