@@ -10,10 +10,10 @@ app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
 mysql = MySQL()
 ########Moved these to properties file############
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
-app.config['MYSQL_DATABASE_DB'] = 'ctf'
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+app.config['MYSQL_DATABASE_USER'] = 'omitted'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'omitted'
+app.config['MYSQL_DATABASE_DB'] = 'omitted'
+app.config['MYSQL_DATABASE_HOST'] = 'omitted'
 #################################################
 mysql.init_app(app)
 
